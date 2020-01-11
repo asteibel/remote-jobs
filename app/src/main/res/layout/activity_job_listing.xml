@@ -4,23 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="com.lebdua.remotejobs.model.vo.Status" />
+
         <variable
-            name="message"
-            type="String" />
+            name="jobsResource"
+            type="com.lebdua.remotejobs.model.vo.Resource" />
+
+        <variable
+            name="interactions"
+            type="com.lebdua.remotejobs.feat.jobs.JobListingInteractions" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background"
         tools:context=".feat.jobs.JobListingActivity">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{message}"
+            android:text="@{jobsResource.message}"
+            android:textColor="@color/grey_1d"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibleGone="@{jobsResource.status == Status.LOADING}"
+            tools:text="Loading the recent jobs" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@{jobsResource.message}"
+            android:textColor="@color/grey_1d"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:visibleGone="@{jobsResource.status == Status.ERROR}"
+            tools:text="@string/error_message" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
+            android:onClick="@{() -> interactions.retry()}"
+            android:padding="4dp"
+            android:text="@string/touch_to_retry"
+            android:textColor="@color/grey_24"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:visibleGone="@{jobsResource.status == Status.ERROR}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/jobs_rv"
+            app:visibleGone="@{jobsResource.status == Status.SUCCESS}"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

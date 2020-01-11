@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebdua.remotejobs.R
 import com.lebdua.remotejobs.databinding.ActivityJobListingBinding
 import com.lebdua.remotejobs.di.RemoteJobsComponentProvider
@@ -21,18 +22,35 @@ class JobListingActivity : AppCompatActivity() {
         ViewModelProviders.of(this, viewModelFactory)[JobListingViewModel::class.java]
     }
 
+    private val jobAdapter: JobAdapter by lazy {
+        JobAdapter()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         inject()
 
-        val binding = DataBindingUtil.setContentView<ActivityJobListingBinding>(this, R.layout.activity_job_listing)
+        val binding = DataBindingUtil.setContentView<ActivityJobListingBinding>(
+            this,
+            R.layout.activity_job_listing
+        )
+
+        binding.interactions = object : JobListingInteractions {
+            override fun retry() {
+                viewModel.retryLoadJobs()
+            }
+        }
+
+        binding.jobsRv.layoutManager = LinearLayoutManager(this)
+        binding.jobsRv.adapter = jobAdapter
 
         viewModel.jobs.observe(this, Observer {
-            binding.message = when (it.status) {
-                Status.SUCCESS -> "success"
-                Status.LOADING -> "loading"
-                Status.ERROR -> "error"
+            binding.jobsResource = it
+            if (it.status == Status.SUCCESS) {
+                it.data?.let { jobs ->
+                    jobAdapter.setJobs(jobs)
+                }
             }
         })
 

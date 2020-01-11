@@ -4,11 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.lebdua.remotejobs.R
 import com.lebdua.remotejobs.databinding.JobItemBinding
 import com.lebdua.remotejobs.model.Job
+import com.lebdua.remotejobs.utils.DateHelper
 
-class JobAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class JobAdapter(
+    private val interactions: JobItemInteractions
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var jobs = ArrayList<Job>()
 
@@ -34,13 +40,37 @@ class JobAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         (holder as? JobItemViewHolder)?.setData(jobs[position])
     }
 
-    class JobItemViewHolder(
+    inner class JobItemViewHolder(
         private val binding: JobItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun setData(job: Job) {
             binding.job = job
+            binding.postedDate = DateHelper.getTimeAgo(
+                binding.root.context,
+                job.date
+            )
+
+            val tagAdapter = TagAdapter()
+            binding.tagsRv.layoutManager = object : FlexboxLayoutManager(binding.root.context) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }.apply {
+                flexDirection = FlexDirection.ROW
+                justifyContent = JustifyContent.FLEX_START
+            }
+            binding.tagsRv.adapter = tagAdapter
+
+            tagAdapter.setTags(job.tags)
+
+            binding.interactions = interactions
             binding.executePendingBindings()
         }
+    }
+
+    interface JobItemInteractions {
+
+        fun openJob(job: Job)
     }
 }

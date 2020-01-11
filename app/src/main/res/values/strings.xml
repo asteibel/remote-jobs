@@ -3,4 +3,13 @@
     <string name="job_listing_loading_message">Loading recent jobs…</string>
     <string name="error_message">Uh oh, something went wrong…</string>
     <string name="touch_to_retry">Touch here to retry.</string>
+    <string name="posted_hours_ago">Posted %1$d hours ago</string>
+    <plurals name="posted_hours_ago">
+        <item quantity="one">Posted 1 hour ago</item>
+        <item quantity="other">Posted %1$d hours ago</item>
+    </plurals>
+    <plurals name="posted_days_ago">
+        <item quantity="one">Posted yesterday</item>
+        <item quantity="other">Posted %1$d days ago</item>
+    </plurals>
 </resources>

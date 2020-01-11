@@ -24,6 +24,9 @@ class ApiRepositoryImpl(
                     .map { jobAsJson ->
                         gson.fromJson(jobAsJson, Job::class.java)
                     }
+                    .filter { job ->
+                        job.company.isNotBlank()
+                    }
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

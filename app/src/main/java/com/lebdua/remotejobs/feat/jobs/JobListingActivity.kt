@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebdua.remotejobs.R
 import com.lebdua.remotejobs.databinding.ActivityJobListingBinding
 import com.lebdua.remotejobs.di.RemoteJobsComponentProvider
+import com.lebdua.remotejobs.model.Job
 import com.lebdua.remotejobs.model.vo.Status
 import javax.inject.Inject
 
@@ -22,8 +23,14 @@ class JobListingActivity : AppCompatActivity() {
         ViewModelProviders.of(this, viewModelFactory)[JobListingViewModel::class.java]
     }
 
+    private val jobItemInteractions = object : JobAdapter.JobItemInteractions {
+        override fun openJob(job: Job) {
+            // TODO
+        }
+    }
+
     private val jobAdapter: JobAdapter by lazy {
-        JobAdapter()
+        JobAdapter(jobItemInteractions)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

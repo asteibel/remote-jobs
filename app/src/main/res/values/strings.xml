@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RemoteJobs</string>
+    <string name="job_listing_loading_message">Loading recent jobs…</string>
+</resources>

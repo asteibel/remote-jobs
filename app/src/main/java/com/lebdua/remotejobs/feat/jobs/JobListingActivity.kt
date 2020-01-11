@@ -1,13 +1,15 @@
 package com.lebdua.remotejobs.feat.jobs
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.lebdua.remotejobs.R
+import com.lebdua.remotejobs.databinding.ActivityJobListingBinding
 import com.lebdua.remotejobs.di.RemoteJobsComponentProvider
+import com.lebdua.remotejobs.model.vo.Status
 import javax.inject.Inject
 
 class JobListingActivity : AppCompatActivity() {
@@ -24,10 +26,14 @@ class JobListingActivity : AppCompatActivity() {
 
         inject()
 
-        setContentView(R.layout.ativity_job_listing)
+        val binding = DataBindingUtil.setContentView<ActivityJobListingBinding>(this, R.layout.activity_job_listing)
 
         viewModel.jobs.observe(this, Observer {
-            Log.d("JobListingActivity", "status: ${it.status}")
+            binding.message = when (it.status) {
+                Status.SUCCESS -> "success"
+                Status.LOADING -> "loading"
+                Status.ERROR -> "error"
+            }
         })
 
         viewModel.loadJobs()

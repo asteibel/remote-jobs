@@ -7,7 +7,10 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Component(
-    modules = [RemoteJobsModule::class]
+    modules = [
+        RemoteJobsModule::class,
+        NetworkingModule::class
+    ]
 )
 @Singleton
 interface RemoteJobsComponent {

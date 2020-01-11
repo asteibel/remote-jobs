@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 .idea
+
+/keys
+/app/google-services.json
+/app/release

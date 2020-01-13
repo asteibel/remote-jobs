@@ -39,7 +39,8 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                app:frescoImage="@{job.companyLogo}"
+                app:placeholderImage="@drawable/ic_worldwide"
+                app:frescoImage="@{job.logo}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:roundedCornerRadius="2dp" />

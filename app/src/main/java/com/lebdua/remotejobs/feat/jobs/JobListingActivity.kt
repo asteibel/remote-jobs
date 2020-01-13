@@ -1,20 +1,21 @@
 package com.lebdua.remotejobs.feat.jobs
 
+import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lebdua.remotejobs.R
+import com.lebdua.remotejobs.custom_tabs.CustomTabBaseActivity
 import com.lebdua.remotejobs.databinding.ActivityJobListingBinding
 import com.lebdua.remotejobs.di.RemoteJobsComponentProvider
 import com.lebdua.remotejobs.model.Job
 import com.lebdua.remotejobs.model.vo.Status
 import javax.inject.Inject
 
-class JobListingActivity : AppCompatActivity() {
+class JobListingActivity : CustomTabBaseActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -25,7 +26,10 @@ class JobListingActivity : AppCompatActivity() {
 
     private val jobItemInteractions = object : JobAdapter.JobItemInteractions {
         override fun openJob(job: Job) {
-            // TODO
+            openCustomTab(
+                getRemoteJobsCustomTabsIntentBuilder(this@JobListingActivity).build(),
+                Uri.parse(job.url)
+            )
         }
     }
 
@@ -35,8 +39,6 @@ class JobListingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        inject()
 
         val binding = DataBindingUtil.setContentView<ActivityJobListingBinding>(
             this,
@@ -64,7 +66,7 @@ class JobListingActivity : AppCompatActivity() {
         viewModel.loadJobs()
     }
 
-    private fun inject() {
+    override fun inject() {
         (application as RemoteJobsComponentProvider).provideRemoteJobsComponent()
             .inject(this)
     }

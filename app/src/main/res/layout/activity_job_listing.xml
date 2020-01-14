@@ -22,16 +22,33 @@
         android:background="@color/background"
         tools:context=".feat.jobs.JobListingActivity">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loader"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:visibleGone="@{jobsResource.status == Status.LOADING}"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:lottie_fileName="world_anim.json"
+            app:lottie_loop="true" />
+
         <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
             android:text="@{jobsResource.message}"
             android:textColor="@color/text_primary"
             android:textSize="16sp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loader"
             app:visibleGone="@{jobsResource.status == Status.LOADING}"
             tools:text="Loading the recent jobs" />
 
@@ -71,14 +88,14 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/jobs_rv"
-            app:visibleGone="@{jobsResource.status == Status.SUCCESS}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            tools:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibleGone="@{jobsResource.status == Status.SUCCESS}"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,4 +12,6 @@
         <item quantity="one">Posted yesterday</item>
         <item quantity="other">Posted %1$d days ago</item>
     </plurals>
+    <string name="job_list_header_text">This app was built using remoteok.io\’s public API.\nHere are all the jobs published in the last 30 days.</string>
+    <string name="remoteeok_link">remoteok.io</string>
 </resources>

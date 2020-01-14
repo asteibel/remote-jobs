@@ -32,7 +32,7 @@ private fun getStartUrlIntent(url: String): Intent = Intent(Intent.ACTION_VIEW, 
 fun openUrl(
     context: Context,
     url: String,
-    failure: () -> Unit
+    failure: () -> Unit = {}
 ) {
     if (URLUtil.isValidUrl(url)) {
         getStartUrlIntent(url).let {
